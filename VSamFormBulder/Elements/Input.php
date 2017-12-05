@@ -10,7 +10,6 @@ class Input extends Element {
     public function render() {
     	$str = '';
         $attributes = $this->renderElementAttributes();
-
     	$str = "<input {$attributes}/>";
     	return $str;
     }

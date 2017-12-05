@@ -101,6 +101,30 @@ $value = [
 			], ...
 		];
 
-$f->select('proba_name',$value)->multiple();		
+$f->select('proba_name',$value)->multiple();
 
+### Wrapper
+
+//<label class="wrapper usname">
+//	<div class="name">ФИО</div>
+//	<input type="text" name="usname" value="">
+//	<div class="help">Имя</div>
+//</label>
+
+//Класс к label генерится из атрибута name
+$f->text('usname')->labelWrapper('ФИО')->help('Имя')->error();	
+
+//Параметр ошибка (error) перекрывает помощь (help)
+//<label class="wrapper usname">
+//	<div class="name">ФИО</div>
+//	<input type="text" name="usname" value="">
+//	<div class="help error">Ошибка!</div>
+//</label>
+
+$f->text('usname')->labelWrapper('ФИО')->help('Имя')->error('Ошибка!');	
+
+//Пустые параметры игнорируются	
+//	<input type="text" name="usname" value="">
+//	<div class="help">Имя</div>
+$f->text('usname')->labelWrapper()->help('Имя')->error();	
 

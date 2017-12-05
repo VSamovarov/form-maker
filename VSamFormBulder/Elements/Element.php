@@ -9,12 +9,14 @@ abstract class Element {
 	protected $allowedAttributes = []; //Все возможные атрибуты элемента
 	protected $booleanAttributes = []; //Логические атрибуты
 
+    protected $wrapper; //объект
     public function __construct($attributes='') {
         if(is_string($attributes)) {
             if(!empty($attributes)) $this->name($attributes);
         } else {
             $this->setElementAttributes($attributes);
         }
+        $this->wrapper = new Wrapper;
     }	
 
     public function getTag() {
@@ -80,10 +82,20 @@ abstract class Element {
     protected function escape($value) {
         return htmlentities($value, ENT_QUOTES, 'UTF-8');
     }
-
+    protected function renderWrapper($str) {
+        //Добовляем к элементу обертку
+        //Label, help, error...
+        //генерим дополнительный класс $class из $this->tag и $this->elementAttributes['name'] 
+        $class = '';
+        if(!empty($this->elementAttributes['name'])) {
+            $class = strtolower ($this->elementAttributes['name']);
+            $class = preg_replace('{[^a-z0-9_-]}', '-', $class);
+        }
+        return $this->wrapper->renderWrapper($str,$class);
+    }
     //========================
     public function __toString() {
-        return $this->render();
+        return $this->renderWrapper($this->render());
     }
     //========================
     public function __call($method, $params) {
@@ -119,5 +131,21 @@ abstract class Element {
     public function addClass ($params) {
     	$this->setElementAttributes(['id'=>$params]);
     	return $this;
+    }
+
+    public function labelWrapper($str,$class="") {
+        $this->wrapper->label = $str;
+        if(!empty($class)) $this->class = $this->class . ' ' . $class;
+        return $this;
+    }
+
+    public function help($str) {
+        $this->wrapper->help = $str;
+        return $this;
+    }
+
+    public function error($str) {
+        $this->wrapper->error = $str;
+        return $this;
     }
 }
