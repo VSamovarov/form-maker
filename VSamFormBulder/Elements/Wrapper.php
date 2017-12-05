@@ -17,7 +17,7 @@ class Wrapper {
 			$help = $error;
 		}
 
-		if($help !== false) {
+		if($help !== false || $error !== false) {
 			$str = $str . "<div class=\"{$class}\">{$help}</div>";
 		}
 		return $str;
