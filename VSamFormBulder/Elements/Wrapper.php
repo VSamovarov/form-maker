@@ -10,28 +10,34 @@ class Wrapper {
 	protected function renderHelp($str) {
 		$help = $this->getHelp();
 		$error = $this->getError();
-
-		$class = "help";
+		$class = "help-block";
 		if(!empty($error)) {
 			$class = $class . ' error';
 			$help = $error;
 		}
-
 		if($help !== false || $error !== false) {
-			$str = $str . "<div class=\"{$class}\">{$help}</div>";
+			$str = $str . "<small class=\"{$class}\">{$help}</small>";
 		}
 		return $str;
 	}
 
-	protected function renderLabel($str,$class) {
+	protected function renderLabel($str,$class='') {
 		$label = $this->getLabel();
 		$help = $this->getHelp();
+		$error = $this->getError();
+
+		if(!empty($error)) {
+			$class .= "{$class} error";
+		}
+
 		$class = trim($this->getLabelClass() . ' ' . $class);
+
 		if(!empty($class)) {
 			$class = " class=\"$class\"";
 		}
+
 		if($label !== false) {
-			$str = "<label{$class}><div class=\"name\">$label</div>{$str}</label>";
+			$str = "<label{$class}><div class=\"label-name\">$label</div>{$str}</label>";
 		}
 		return $str;
 	}

@@ -129,7 +129,11 @@ abstract class Element {
     }
 
     public function addClass ($params) {
-    	$this->setElementAttributes(['id'=>$params]);
+        $elementAttributes = $this->getElementAttributes();
+        if(isset($elementAttributes['class'])) {
+            $params = "{$elementAttributes['class']} {$params}";
+        }
+    	$this->setElementAttributes(['class'=>$params]);
     	return $this;
     }
 
