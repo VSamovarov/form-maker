@@ -99,7 +99,7 @@ abstract class Element {
     }
     //========================
     public function __call($method, $params) {
-        if(empty($params[0])) $params[0] = '';
+        if(!isset($params[0])) $params[0] = '';
     	if(in_array($method, $this->booleanAttributes)) {
     		$this->setBooleanAttribute($method,$params[0]);
             return $this;
